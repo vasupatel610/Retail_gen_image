@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: image-generation-api
+    ports:
+      - "${PORT:-8010}:8010"
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - HOST=0.0.0.0
+      - PORT=8010
+      - DEBUG=${DEBUG:-False}
+      - MAX_IMAGE_SIZE=${MAX_IMAGE_SIZE:-10485760}
+      - OUTPUT_DIR=outputs
+      - UPLOAD_DIR=uploads
+    volumes:
+      - ./outputs:/app/outputs
+      - ./uploads:/app/uploads
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8010/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
