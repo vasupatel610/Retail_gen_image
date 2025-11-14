@@ -24,6 +24,7 @@ class Settings(BaseSettings):
     HOST: str = os.getenv("HOST", "0.0.0.0")
     PORT: int = int(os.getenv("PORT", "8010"))
     DEBUG: bool = os.getenv("DEBUG", "False").lower() == "true"
+    ROOT_PATH: str = os.getenv("ROOT_PATH", "/retail-gen-img")  # For nginx reverse proxy
     
     # API Keys
     GOOGLE_API_KEY: str = os.getenv("GOOGLE_API_KEY", "")
@@ -38,7 +39,13 @@ class Settings(BaseSettings):
     GEMINI_MODEL: str = "gemini-2.5-flash-image"
     
     # CORS
-    ALLOWED_ORIGINS: List[str] = ["*"]  # Configure this for production
+    ALLOWED_ORIGINS: List[str] = [
+        "https://ai-use-cases-backend.artisanscloud.com.my",
+        "http://ai-use-cases-backend.artisanscloud.com.my",
+        "http://localhost:3000",  # For local development
+        "http://localhost:8080",  # For local development
+        "http://127.0.0.1:3000",  # For local development
+    ]
     
     class Config:
         env_file = ".env"

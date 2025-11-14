@@ -15,7 +15,8 @@ app = FastAPI(
     description="AI-powered image generation and editing service using Google Gemini",
     version=settings.VERSION,
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
+    root_path=settings.ROOT_PATH  # Configure for nginx reverse proxy
 )
 
 # CORS middleware
@@ -66,21 +67,26 @@ async def startup_event():
         hostname = socket.gethostname()
         local_ip = socket.gethostbyname(hostname)
         
-        print("\n" + "="*60)
+        print("\n" + "="*70)
         print(f"🚀 {settings.APP_NAME} is running!")
-        print("="*60)
+        print("="*70)
         print(f"📱 Local access:     http://localhost:{settings.PORT}")
         print(f"🌐 Network access:   http://{local_ip}:{settings.PORT}")
-        print(f"🔧 API docs:         http://{local_ip}:{settings.PORT}/docs")
-        print(f"📚 ReDoc:            http://{local_ip}:{settings.PORT}/redoc")
-        print("="*60)
-        print("💡 The UI is accessible from any device on your network!")
-        print("   Share the network URL with others to let them use the app.")
-        print("="*60 + "\n")
+        print("="*70)
+        print("🔗 PRODUCTION NGINX PROXY URLS:")
+        print(f"🌍 Main app:         https://ai-use-cases-backend.artisanscloud.com.my/retail-gen-img/")
+        print(f"🔧 API docs:         https://ai-use-cases-backend.artisanscloud.com.my/retail-gen-img/docs")
+        print(f"📚 ReDoc:            https://ai-use-cases-backend.artisanscloud.com.my/retail-gen-img/redoc")
+        print(f"❤️  Health check:    https://ai-use-cases-backend.artisanscloud.com.my/retail-gen-img/health")
+        print("="*70)
+        print("💡 The app is configured for nginx reverse proxy at /retail-gen-img")
+        print("   Make sure nginx is properly configured and running!")
+        print("="*70 + "\n")
         
     except Exception as e:
         print(f"Could not determine network IP: {e}")
         print(f"App is running on http://localhost:{settings.PORT}")
+        print(f"Production URL: https://ai-use-cases-backend.artisanscloud.com.my/retail-gen-img/")
 
 
 def get_local_ip():
