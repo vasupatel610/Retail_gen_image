@@ -23,9 +23,8 @@ const gallerySection = document.getElementById('gallerySection');
 const galleryGrid = document.getElementById('galleryGrid');
 const progressFill = document.getElementById('progressFill');
 
-// API base URL
-// const API_BASE_URL = window.location.origin;
-const API_BASE_URL = "http://localhost:8010";
+// API base URL - Use the current origin with the proxy path
+const API_BASE_URL = window.location.origin + "/retail-gen-img";
 
 
 // Initialize the application
